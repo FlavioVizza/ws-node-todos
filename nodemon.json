@@ -1,0 +1,9 @@
+{
+  "verbose": false,
+  "watch": [
+    "./server.js",
+    "./app/*",
+    "./config/*",
+    "./swagger/*.json"
+  ]
+}
