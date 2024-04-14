@@ -11,6 +11,7 @@ import todosRoutes from './app/routes/todos.routes.js'
 import config from './config/config.js'
 
 const PORT = config.port
+const MONGO_URI = config.mongodbUri
 
 // setup express app
 const app = express()
@@ -23,7 +24,7 @@ app.use('/api/auth',  authRoutes);
 app.use('/api/todos', todosRoutes);
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/todoapp')
+mongoose.connect(MONGO_URI)
   .then(  () => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB', err));
 
