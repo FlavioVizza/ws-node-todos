@@ -16,7 +16,7 @@ const ACCESS_TOKEN_SECRET = config.accessTokenSecret
  */
 function generateAccessToken(user) {
   return jwt.sign({ _id: user._id }, ACCESS_TOKEN_SECRET, {
-    expiresIn: "15m",
+    expiresIn: config.accessTokenDuration,
   });
 }
 
@@ -34,7 +34,7 @@ const REFRESH_TOKEN_SECRET = config.refreshTokenSecret
  */
 function generateRefreshToken(user) {
   return jwt.sign({ _id: user._id }, REFRESH_TOKEN_SECRET, {
-    expiresIn: "1d",
+    expiresIn: config.refreshTokenDuration,
   });
 }
 
