@@ -31,6 +31,10 @@ mongoose.connect('mongodb://localhost/todoapp')
 const jsonString = readFileSync(`${process.cwd()}/doc/swagger.json`, 'utf-8');
 const swaggerConfig = JSON.parse(jsonString);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
+app.get('/swagger.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.sendFile(`${process.cwd()}/doc/swagger.json`);
+});
 
 // app
 app.listen(PORT, (err) => {
