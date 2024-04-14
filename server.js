@@ -1,3 +1,6 @@
+import { readFileSync } from 'fs';
+import swaggerUi from 'swagger-ui-express';
+
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
@@ -23,6 +26,11 @@ app.use('/api/todos', todosRoutes);
 mongoose.connect('mongodb://localhost/todoapp')
   .then(  () => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB', err));
+
+// swagger
+const jsonString = readFileSync(`${process.cwd()}/doc/swagger.json`, 'utf-8');
+const swaggerConfig = JSON.parse(jsonString);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig));
 
 // app
 app.listen(PORT, (err) => {

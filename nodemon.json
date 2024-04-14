@@ -4,6 +4,6 @@
     "./server.js",
     "./app/*",
     "./config/*",
-    "./swagger/*.json"
+    "./doc/*.json"
   ]
 }

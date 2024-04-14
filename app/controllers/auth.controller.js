@@ -41,10 +41,10 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     
-		if (!user) return res.status(400).send({ error: 'Invalid username or password'});
+		if (!user) return res.status(400).send({ success: false, message: 'Invalid username or password'});
 
 		const validPassword = user.authenticate(password)
-		if (!validPassword) return res.status(401).send({ error: 'Invalid password'});
+		if (!validPassword) return res.status(401).send({ success: false, message: 'Invalid password'});
     
 		const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
@@ -53,17 +53,17 @@ const login = async (req, res) => {
   } catch (error) {
     console.log(error)
 
-    res.status(500).send('Error logging in');
+    res.status(500).send({success: false, message: 'Error logging in'});
   }
 }
 
 // Refresh access token
 const refreshToken = async (req, res) => {
   const refreshToken = req.body.refreshToken;
-  if (!refreshToken) return res.sendStatus(401);
+  if (!refreshToken) return res.status(401).send({ success: false, message: 'Refresh token is required'});
 	
   jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
+    if (err) return res.status(403).send({ success: false, message: 'Refresh token is invalid or expired'});
     
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);

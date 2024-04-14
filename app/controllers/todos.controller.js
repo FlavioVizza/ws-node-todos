@@ -5,7 +5,8 @@ import mongoose from 'mongoose'
 async function getTodoList(req, res) {
   try {
      const userIdObject = mongoose.Types.ObjectId.createFromHexString(req.userId);
-     const todos = await Todo.find({ userId: userIdObject });
+     const todos = await Todo.find({ userId: userIdObject })
+                             .select("-_id todoId title description completed createAt");
      res.json(todos);
   } catch (error) {
     console.log(error)
@@ -16,7 +17,9 @@ async function getTodoList(req, res) {
 // Get todo item by ID
 async function getTodoItem(req, res) {
   try {
-    const todo = await Todo.findOne({ todoId: req.params.id, userId: req.userId });
+    const todo = await Todo.findOne({ todoId: req.params.id, userId: req.userId })
+                           .select("-_id todoId title description completed createAt");
+
     if (!todo) return res.status(404).send({success: false, message: 'Todo item not found'});
     res.json(todo);
   } catch (error) {
@@ -42,7 +45,7 @@ async function postTodoItem(req, res) {
 async function deleteTodoItem(req, res) {
   try {
     await Todo.deleteOne({ todoId: req.params.id, userId: req.userId });
-    res.status(204).send({success: true, message: 'Todo item deleted successfully'});
+    res.status(200).send({success: true, message: 'Todo item deleted successfully'});
   } catch (error) {
     res.status(500).send({success: false, message: 'Error deleting todo item'});
   }
@@ -53,7 +56,7 @@ async function putTodoItem(req, res) {
   try {
     const { title, description, completed } = req.body;
     await Todo.findOneAndUpdate({ todoId: req.params.id, userId: req.userId }, { title, description, completed });
-    res.status(204).send({success: true, message: 'Todo item updated successfully'});
+    res.status(200).send({success: true, message: 'Todo item updated successfully'});
   } catch (error) {
     console.log(error)
     res.status(500).send({success: false, message: 'Error updating todo item'});
