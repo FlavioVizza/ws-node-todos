@@ -1,7 +1,12 @@
 import Todo from '../models/todos.model.js'
 import mongoose from 'mongoose'
- 
-// Get todo list
+
+/**
+ * Retrieves the list of todos associated with the authenticated user.
+ * 
+ * @param {express.Request} req - The Express request object.
+ * @param {express.Response} res - The Express response object.
+ */
 async function getTodoList(req, res) {
   try {
      const userIdObject = mongoose.Types.ObjectId.createFromHexString(req.userId);
@@ -14,7 +19,12 @@ async function getTodoList(req, res) {
   }
 }
 
-// Get todo item by ID
+/**
+ * Retrieves a specific todo item by its ID.
+ * 
+ * @param {express.Request} req - The Express request object.
+ * @param {express.Response} res - The Express response object.
+ */
 async function getTodoItem(req, res) {
   try {
     const todo = await Todo.findOne({ todoId: req.params.id, userId: req.userId })
@@ -28,7 +38,12 @@ async function getTodoItem(req, res) {
   }
 }
 
-// Create new todo item
+/**
+ * Creates a new todo item.
+ * 
+ * @param {express.Request} req - The Express request object.
+ * @param {express.Response} res - The Express response object.
+ */
 async function postTodoItem(req, res) {
   try {
     const { title, description } = req.body;
@@ -41,7 +56,12 @@ async function postTodoItem(req, res) {
   }
 }
 
-// Delete todo item by ID
+/**
+ * Deletes a specific todo item by its ID.
+ * 
+ * @param {express.Request} req - The Express request object.
+ * @param {express.Response} res - The Express response object.
+ */
 async function deleteTodoItem(req, res) {
   try {
     await Todo.deleteOne({ todoId: req.params.id, userId: req.userId });
@@ -51,7 +71,12 @@ async function deleteTodoItem(req, res) {
   }
 }
 
-// Update todo item by ID
+/**
+ * Updates a specific todo item by its ID.
+ * 
+ * @param {express.Request} req - The Express request object.
+ * @param {express.Response} res - The Express response object.
+ */
 async function putTodoItem(req, res) {
   try {
     const { title, description, completed } = req.body;

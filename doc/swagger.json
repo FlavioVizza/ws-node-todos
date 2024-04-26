@@ -5,6 +5,10 @@
     "title": "Todos REST API",
     "description": "Todos REST API documentation"
   },
+  "externalDocs": {                
+    "description": "swagger.json", 
+    "url": "/swagger.json"         
+  }, 
   "servers": [
     {
       "url": "http://localhost:3000/api", 
